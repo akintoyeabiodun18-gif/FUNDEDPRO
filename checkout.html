@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Checkout | FUNDEDPRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background:#050505; color:white; font-family:'Inter', sans-serif; }
+        .glass { background:rgba(255,255,255,0.03); backdrop-filter:blur(18px); border:1px solid rgba(255,255,255,0.08); }
+        .green { color:#8BFF00; }
+        .green-bg { background:#8BFF00; color:black; font-weight:900; }
+        .btn-active { border-color:#8BFF00 !important; background: rgba(139, 255, 0, 0.1); }
+    </style>
+</head>
+<body class="py-12">
+
+<div class="max-w-6xl mx-auto px-5">
+    
+    <div class="glass rounded-[35px] p-8 mb-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-black">Product Details</h2>
+            <button onclick="toggleEdit()" class="bg-zinc-800 px-6 py-2 rounded-xl font-bold hover:bg-zinc-700">EDIT</button>
+        </div>
+
+        <div id="editPanel" class="hidden space-y-6 mb-8 border-b border-zinc-800 pb-8">
+            <div>
+                <p class="text-zinc-500 font-bold mb-3">SELECT MODEL</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="modelSelect">
+                    <button class="bg-zinc-900 border border-zinc-700 p-4 rounded-xl btn-active" onclick="updateConfig('model', '1 Step', this)">1 Step</button>
+                    <button class="bg-zinc-900 border border-zinc-700 p-4 rounded-xl" onclick="updateConfig('model', '2 Step', this)">2 Step</button>
+                </div>
+            </div>
+            <div>
+                <p class="text-zinc-500 font-bold mb-3">SELECT SIZE</p>
+                <div class="grid grid-cols-3 md:grid-cols-6 gap-4" id="sizeSelect">
+                    <button class="bg-zinc-900 border border-zinc-700 p-4 rounded-xl" onclick="updateConfig('size', '5K', this)">5K</button>
+                    <button class="bg-zinc-900 border border-zinc-700 p-4 rounded-xl btn-active" onclick="updateConfig('size', '100K', this)">100K</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="summaryDisplay" class="text-xl">
+            <p>Plan: <span id="summModel" class="font-bold">1 Step</span></p>
+            <p>Size: <span id="summSize" class="font-bold">100K</span></p>
+            <h2 id="totalPrice" class="text-5xl font-black green mt-4">$350.00</h2>
+        </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8">
+        <div class="space-y-8">
+            <div class="glass rounded-[35px] p-8">
+                <h3 class="text-xl font-bold mb-6">Select Bundles</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="setBundle(1, this)" class="bundle-btn p-6 bg-zinc-900 border-2 border-lime-500 rounded-2xl text-left">1 Account<br><span class="text-sm text-zinc-400">Default</span></button>
+                    <button onclick="setBundle(2, this)" class="bundle-btn p-6 bg-zinc-900 border-2 border-zinc-800 rounded-2xl text-left">2 Accounts<br><span class="text-sm text-lime-400">4% OFF</span></button>
+                </div>
+            </div>
+
+            <div class="glass rounded-[35px] p-8">
+                <h3 class="text-xl font-bold mb-4">Add-ons</h3>
+                <label class="flex items-center gap-3 p-4 bg-zinc-900 rounded-xl border border-zinc-800">
+                    <input type="checkbox" id="splitAddon" onchange="calculate()"> 100% Profit Split (+20%)
+                </label>
+            </div>
+        </div>
+
+        <div class="glass rounded-[35px] p-8">
+            <h3 class="text-xl font-bold mb-6">Billing Details</h3>
+            <div class="space-y-4">
+                <input type="text" placeholder="First Name" class="w-full p-4 bg-zinc-900 border border-zinc-800 rounded-xl">
+                <select class="w-full p-4 bg-zinc-900 border border-zinc-800 rounded-xl"><option>Country</option></select>
+                <input type="text" placeholder="Postcode" class="w-full p-4 bg-zinc-900 border border-zinc-800 rounded-xl">
+                <button class="w-full green-bg py-4 rounded-xl mt-6">PLACE ORDER</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let state = { model: '1 Step', size: '100K', bundle: 1, prices: {'5K': 49, '100K': 350} };
+
+    function toggleEdit() { document.getElementById('editPanel').classList.toggle('hidden'); }
+
+    function updateConfig(key, value, btn) {
+        state[key] = value;
+        document.querySelectorAll(`#${key}Select button`).forEach(b => b.classList.remove('btn-active'));
+        btn.classList.add('btn-active');
+        document.getElementById('summ' + key.charAt(0).toUpperCase() + key.slice(1)).innerText = value;
+        calculate();
+    }
+
+    function setBundle(num, btn) {
+        state.bundle = num;
+        document.querySelectorAll('.bundle-btn').forEach(b => {
+            b.classList.remove('border-lime-500');
+            b.classList.add('border-zinc-800');
+        });
+        btn.classList.add('border-lime-500');
+        calculate();
+    }
+
+    function calculate() {
+        let base = state.prices[state.size] || 350;
+        let total = base * state.bundle * (state.bundle == 2 ? 0.96 : 1);
+        if(document.getElementById('splitAddon').checked) total += (base * 0.2);
+        document.getElementById('totalPrice').innerText = '$' + total.toFixed(2);
+    }
+</script>
+</body>
+</html>
