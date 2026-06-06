@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUNDEDPRO | Help Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .active .accordion-content { max-height: 400px; }
+        .arrow { transition: transform 0.3s; }
+        .active .arrow { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-[#050505] text-white">
+
+    <nav class="p-6 border-b border-zinc-800">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-black italic">FUNDED<span class="text-[#8BFF00]">PRO</span> HELP CENTER</h1>
+           <a href="fundednextdemo.html" class="text-zinc-400 hover:text-white transition">← Back to Home</a>
+        </div>
+    </nav>
+
+    <section class="max-w-3xl mx-auto px-6 py-20">
+        <h2 class="text-4xl font-black mb-12 text-center">Frequently Asked <span class="text-[#8BFF00]">Questions</span></h2>
+        
+        <div class="space-y-4">
+            <div class="accordion border border-zinc-800 bg-[#111] rounded-2xl overflow-hidden cursor-pointer" onclick="this.classList.toggle('active')">
+                <div class="p-6 flex justify-between items-center font-bold text-lg">
+                    <span>How are withdrawals requested?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="accordion-content p-6 pt-0 text-zinc-400 border-t border-zinc-800">
+                    You can initiate a withdrawal request directly from your trader dashboard. Simply navigate to the "Payout" section, verify your closed profit, select your preferred payment method (Crypto or Bank Transfer), and confirm the request. Ensure your account is fully KYC verified to avoid any processing delays.
+                </div>
+            </div>
+
+            <div class="accordion border border-zinc-800 bg-[#111] rounded-2xl overflow-hidden cursor-pointer" onclick="this.classList.toggle('active')">
+                <div class="p-6 flex justify-between items-center font-bold text-lg">
+                    <span>Which platforms can I trade on?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="accordion-content p-6 pt-0 text-zinc-400 border-t border-zinc-800">
+                    Currently, our platform grants access to Ctrader, Tradelocker, MatchTrader, Volumetrica, and MT5. Please note that MT5 and Ctrader are not available to clients located in the USA. All other platforms (Tradelocker, MatchTrader, and Volumetrica) are available to US traders.
+                </div>
+            </div>
+
+            <div class="accordion border border-zinc-800 bg-[#111] rounded-2xl overflow-hidden cursor-pointer" onclick="this.classList.toggle('active')">
+                <div class="p-6 flex justify-between items-center font-bold text-lg">
+                    <span>How long does it take to receive a reward?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="accordion-content p-6 pt-0 text-zinc-400 border-t border-zinc-800">
+                    Our payout process is completed within 24-48 business hours. As part of our commitment to fast service, if you do not receive your payout within 2 business days, we will add a $500 bonus to your payout.
+                </div>
+            </div>
+
+            <div class="accordion border border-zinc-800 bg-[#111] rounded-2xl overflow-hidden cursor-pointer" onclick="this.classList.toggle('active')">
+                <div class="p-6 flex justify-between items-center font-bold text-lg">
+                    <span>Is news trading allowed?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="accordion-content p-6 pt-0 text-zinc-400 border-t border-zinc-800">
+                    Yes, news trading is fully permitted on all FUNDEDPRO accounts. You are free to trade during high-impact news events without any restrictions or lot size limitations.
+                </div>
+            </div>
+
+            <div class="accordion border border-zinc-800 bg-[#111] rounded-2xl overflow-hidden cursor-pointer" onclick="this.classList.toggle('active')">
+                <div class="p-6 flex justify-between items-center font-bold text-lg">
+                    <span>Are weekend holdings allowed?</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="accordion-content p-6 pt-0 text-zinc-400 border-t border-zinc-800">
+                    Yes, you are permitted to hold your positions open over the weekend on all account types. We do not force you to close your trades at the market close on Friday.
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
