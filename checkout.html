@@ -71,6 +71,14 @@ const pricingData = {
     "Instant": { "5K": 80, "15K": 150, "25K": 250, "50K": 450, "100K": 850, "200K": 1600 }
 };
 
+const wallets = {
+    "BITCOIN (BTC)": { address: "17YC6BVKX5YPTWWM729FQVZTHZUEKGF1MA", icon: "https://cryptologos.cc/logos/bitcoin-btc-logo.png" },
+    "TETHER (USDT TRC20)": { address: "TXZTMJHDQPQZP2PKKNWGKT3HDRIUHB8L2K", icon: "https://cryptologos.cc/logos/tether-usdt-logo.png" },
+    "ETHEREUM (ETH)": { address: "0X8F3051DE29A434475D4300355FF82D7B3391D1F9", icon: "https://cryptologos.cc/logos/ethereum-eth-logo.png" },
+    "SOLANA (SOL)": { address: "CDCUXSCVIMAXP3VPIR8RC96GKVUGVNPGMDPRTVLM62YP", icon: "https://cryptologos.cc/logos/solana-sol-logo.png" },
+    "DOGECOIN (DOGE)": { address: "DEL6LKZCDQWQKJP3VZ54Y1KUSJ3XZR1PNU", icon: "https://cryptologos.cc/logos/dogecoin-doge-logo.png" }
+};
+
 window.onload = () => {
     populateCountries();
     const params = new URLSearchParams(window.location.search);
@@ -116,33 +124,47 @@ function populateCountries() {
     });
 }
 
-async function handleSubmit(event) {
+function handleSubmit(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const orderData = {
-        model: state.model,
-        size: state.size,
-        platform: state.platform,
-        price: document.getElementById("totalPrice").innerText.replace('$', ''),
-        billing: Object.fromEntries(formData.entries()) // Now this will capture all inputs with 'name' attributes
-    };
+    const modal = document.createElement('div');
+    modal.className = "fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50";
+    modal.innerHTML = `
+        <div class="glass w-full max-w-md p-8 rounded-[35px] text-center">
+            <h2 class="text-2xl font-black mb-6">Select Crypto Payment</h2>
+            <div id="cryptoList" class="grid grid-cols-2 gap-4 mb-6"></div>
+            <div id="addrBox" class="hidden">
+                <img id="selIcon" class="w-16 h-16 mx-auto mb-4">
+                <p class="text-zinc-400 mb-1">Send <span id="amt" class="text-white font-bold"></span> to:</p>
+                <div class="bg-black p-4 rounded-xl border border-zinc-800 font-mono text-lime-400 break-all mb-6" id="selAddr"></div>
+                <button onclick="showSuccess()" class="w-full green-bg py-3 rounded-xl font-bold">I HAVE COMPLETED PAYMENT</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    const list = modal.querySelector('#cryptoList');
+    Object.keys(wallets).forEach(coin => {
+        const btn = document.createElement('button');
+        btn.className = "p-3 bg-zinc-900 border border-zinc-700 rounded-xl hover:border-lime-500 transition";
+        btn.innerHTML = `<img src="${wallets[coin].icon}" class="w-8 h-8 mx-auto mb-2">${coin.split(' ')[0]}`;
+        btn.onclick = () => {
+            modal.querySelector('#addrBox').classList.remove('hidden');
+            modal.querySelector('#selIcon').src = wallets[coin].icon;
+            modal.querySelector('#selAddr').innerText = wallets[coin].address;
+            modal.querySelector('#amt').innerText = document.getElementById("totalPrice").innerText;
+        };
+        list.appendChild(btn);
+    });
+}
 
-    try {
-        const response = await fetch('/api/create-invoice', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderData)
-        });
-        const data = await response.json();
-        if (data.invoice_url) {
-            window.location.href = data.invoice_url;
-        } else {
-            alert("Error: " + (data.error || "Could not create invoice."));
-        }
-    } catch (error) {
-        console.error("Error:", error);
-        alert("Payment gateway connection failed.");
-    }
+function showSuccess() {
+    document.body.lastElementChild.innerHTML = `
+        <div class="glass w-full max-w-sm p-12 rounded-[35px] text-center">
+            <div class="text-8xl text-green mb-6">✓</div>
+            <h2 class="text-3xl font-black mb-2">Congratulations!</h2>
+            <p class="text-zinc-400">Your order is being processed. We will email your login details shortly.</p>
+        </div>
+    `;
 }
 </script>
 </body>
