@@ -1,111 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout | FUNDEDPRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background:#050505; color:white; font-family:'Inter', sans-serif; }
-        .glass { background:rgba(255,255,255,0.03); backdrop-filter:blur(18px); border:1px solid rgba(255,255,255,0.08); }
-        .green { color:#8BFF00; }
-        .green-bg { background:#8BFF00; color:black; font-weight:900; }
-        .btn-active { border-color:#8BFF00 !important; background: rgba(139, 255, 0, 0.1); }
+        body { background: #050505; color: white; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, .03); backdrop-filter: blur(18px); border: 1px solid rgba(255, 255, 255, .08); }
+        .green { color: #8BFF00; }
+        .green-bg { background: #8BFF00; color: black; font-weight: 900; }
+        input, select { background: #0a0a0a !important; color: white !important; }
     </style>
 </head>
 <body class="py-12">
 
 <div class="max-w-6xl mx-auto px-5">
-    
-    <div class="glass rounded-[35px] p-8 mb-8">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-3xl font-black">Product Details</h2>
-            <button onclick="toggleEdit()" class="bg-zinc-800 px-6 py-2 rounded-xl font-bold hover:bg-zinc-700">EDIT</button>
-        </div>
-
-        <div id="editPanel" class="hidden space-y-6 mb-8 border-b border-zinc-800 pb-8">
-            <div>
-                <p class="text-zinc-500 font-bold mb-3">SELECT MODEL</p>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="modelSelect">
-                    <button class="bg-zinc-900 border border-zinc-700 p-4 rounded-xl btn-active" onclick="updateConfig('model', '1 Step', this)">1 Step</button>
-                    <button class="bg-zinc-900 border border-zinc-700 p-4 rounded-xl" onclick="updateConfig('model', '2 Step', this)">2 Step</button>
-                </div>
-            </div>
-            <div>
-                <p class="text-zinc-500 font-bold mb-3">SELECT SIZE</p>
-                <div class="grid grid-cols-3 md:grid-cols-6 gap-4" id="sizeSelect">
-                    <button class="bg-zinc-900 border border-zinc-700 p-4 rounded-xl" onclick="updateConfig('size', '5K', this)">5K</button>
-                    <button class="bg-zinc-900 border border-zinc-700 p-4 rounded-xl btn-active" onclick="updateConfig('size', '100K', this)">100K</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="summaryDisplay" class="text-xl">
-            <p>Plan: <span id="summModel" class="font-bold">1 Step</span></p>
-            <p>Size: <span id="summSize" class="font-bold">100K</span></p>
-            <h2 id="totalPrice" class="text-5xl font-black green mt-4">$350.00</h2>
-        </div>
-    </div>
-
     <div class="grid lg:grid-cols-2 gap-8">
+        
         <div class="space-y-8">
             <div class="glass rounded-[35px] p-8">
-                <h3 class="text-xl font-bold mb-6">Select Bundles</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <button onclick="setBundle(1, this)" class="bundle-btn p-6 bg-zinc-900 border-2 border-lime-500 rounded-2xl text-left">1 Account<br><span class="text-sm text-zinc-400">Default</span></button>
-                    <button onclick="setBundle(2, this)" class="bundle-btn p-6 bg-zinc-900 border-2 border-zinc-800 rounded-2xl text-left">2 Accounts<br><span class="text-sm text-lime-400">4% OFF</span></button>
+                <h2 class="text-3xl font-black mb-6">Your Order</h2>
+                <div id="summaryDisplay" class="space-y-2">
+                    <p class="text-lg text-zinc-400">Plan: <span id="summModel" class="font-bold text-white">1 Step</span></p>
+                    <p class="text-lg text-zinc-400">Size: <span id="summSize" class="font-bold text-white">100K</span></p>
+                    <p class="text-lg text-zinc-400">Platform: <span id="summPlatform" class="font-bold text-white">TradeLocker</span></p>
+                    <h2 id="totalPrice" class="text-5xl font-black green pt-4">$350.00</h2>
                 </div>
             </div>
 
             <div class="glass rounded-[35px] p-8">
                 <h3 class="text-xl font-bold mb-4">Add-ons</h3>
-                <label class="flex items-center gap-3 p-4 bg-zinc-900 rounded-xl border border-zinc-800">
-                    <input type="checkbox" id="splitAddon" onchange="calculate()"> 100% Profit Split (+20%)
+                <label class="flex items-center gap-4 p-4 bg-zinc-900 rounded-xl border border-zinc-800 cursor-pointer">
+                    <input id="splitAddon" type="checkbox" onchange="calculate()" class="w-5 h-5 accent-[#8BFF00]">
+                    <span>100% Profit Split (+20%)</span>
                 </label>
             </div>
         </div>
 
         <div class="glass rounded-[35px] p-8">
-            <h3 class="text-xl font-bold mb-6">Billing Details</h3>
-            <div class="space-y-4">
-                <input type="text" placeholder="First Name" class="w-full p-4 bg-zinc-900 border border-zinc-800 rounded-xl">
-                <select class="w-full p-4 bg-zinc-900 border border-zinc-800 rounded-xl"><option>Country</option></select>
-                <input type="text" placeholder="Postcode" class="w-full p-4 bg-zinc-900 border border-zinc-800 rounded-xl">
-                <button class="w-full green-bg py-4 rounded-xl mt-6">PLACE ORDER</button>
-            </div>
+            <h3 class="text-2xl font-bold mb-6">Billing Details</h3>
+            <form onsubmit="handleSubmit(event)" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" required placeholder="First name *" class="w-full p-4 border border-zinc-800 rounded-xl">
+                    <input type="text" required placeholder="Last name *" class="w-full p-4 border border-zinc-800 rounded-xl">
+                </div>
+                <select id="countrySelect" required class="w-full p-4 border border-zinc-800 rounded-xl">
+                    <option value="" disabled selected>Select a Country / Region *</option>
+                </select>
+                <input type="text" placeholder="Apartment, suite, unit, etc. (optional)" class="w-full p-4 border border-zinc-800 rounded-xl">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" required placeholder="Postcode / ZIP *" class="w-full p-4 border border-zinc-800 rounded-xl">
+                    <input type="text" required placeholder="Town / City *" class="w-full p-4 border border-zinc-800 rounded-xl">
+                </div>
+                <input type="tel" placeholder="Phone (optional)" class="w-full p-4 border border-zinc-800 rounded-xl">
+                <input type="email" required placeholder="Email address *" class="w-full p-4 border border-zinc-800 rounded-xl">
+                
+                <button type="submit" class="w-full green-bg py-4 rounded-xl mt-6 font-black text-lg hover:opacity-90 transition">PLACE ORDER</button>
+            </form>
         </div>
     </div>
 </div>
 
 <script>
-    let state = { model: '1 Step', size: '100K', bundle: 1, prices: {'5K': 49, '100K': 350} };
+const state = { model: "1 Step", size: "100K", platform: "TradeLocker" };
 
-    function toggleEdit() { document.getElementById('editPanel').classList.toggle('hidden'); }
+// Exact pricing matrix from your main page logic
+const pricingData = {
+    "1 Step": { "5K": 49, "15K": 99, "25K": 149, "50K": 199, "100K": 350, "200K": 599 },
+    "2 Step": { "5K": 39, "15K": 89, "25K": 128, "50K": 180, "100K": 299, "200K": 555 },
+    "3 Step": { "5K": 35, "15K": 79, "25K": 110, "50K": 150, "100K": 250, "200K": 499 },
+    "Instant": { "5K": 80, "15K": 150, "25K": 250, "50K": 450, "100K": 850, "200K": 1600 }
+};
 
-    function updateConfig(key, value, btn) {
-        state[key] = value;
-        document.querySelectorAll(`#${key}Select button`).forEach(b => b.classList.remove('btn-active'));
-        btn.classList.add('btn-active');
-        document.getElementById('summ' + key.charAt(0).toUpperCase() + key.slice(1)).innerText = value;
-        calculate();
-    }
+window.onload = () => {
+    populateCountries();
+    const params = new URLSearchParams(window.location.search);
 
-    function setBundle(num, btn) {
-        state.bundle = num;
-        document.querySelectorAll('.bundle-btn').forEach(b => {
-            b.classList.remove('border-lime-500');
-            b.classList.add('border-zinc-800');
-        });
-        btn.classList.add('border-lime-500');
-        calculate();
-    }
+    // Pulling data passed from the main page
+    if(params.has("model")) state.model = params.get("model");
+    if(params.has("size")) state.size = params.get("size");
+    if(params.has("platform")) state.platform = params.get("platform");
 
-    function calculate() {
-        let base = state.prices[state.size] || 350;
-        let total = base * state.bundle * (state.bundle == 2 ? 0.96 : 1);
-        if(document.getElementById('splitAddon').checked) total += (base * 0.2);
-        document.getElementById('totalPrice').innerText = '$' + total.toFixed(2);
-    }
+    document.getElementById("summModel").innerText = state.model;
+    document.getElementById("summSize").innerText = state.size;
+    document.getElementById("summPlatform").innerText = state.platform;
+
+    calculate();
+};
+
+function calculate() {
+    let price = pricingData[state.model][state.size] || 350;
+    if(document.getElementById("splitAddon").checked) price *= 1.20;
+    document.getElementById("totalPrice").innerText = "$" + price.toFixed(2);
+}
+
+function populateCountries() {
+    // 1. You must define the 'select' variable by finding it in your HTML
+    const select = document.getElementById("countrySelect");
+    
+    // 2. Ensure the element exists before trying to loop
+    if (!select) return; 
+
+    const countries = [
+        "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+        "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi",
+        "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czech Republic",
+        "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia",
+        "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
+        "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Ivory Coast",
+        "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
+        "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
+        "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "North Korea", "North Macedonia", "Norway", "Oman",
+        "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda",
+        "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
+        "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
+        "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+    ];
+
+    countries.forEach(c => {
+        select.innerHTML += `<option value="${c}">${c}</option>`;
+    });
+}
+function handleSubmit(event) {
+    event.preventDefault();
+    alert("Order processed for " + state.size + " " + state.model + " account!");
+}
 </script>
 </body>
 </html>
